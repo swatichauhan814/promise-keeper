@@ -75,13 +75,17 @@ Every `ingest` appends newly-found commitments to `todos.json` and regenerates `
 
 ## Public demo
 
-The `demo/` directory contains a static, sample-only preview. It uses fixed fictional
-transcripts and pre-written results; visitors cannot submit text or audio, and the page
-does not call an AI service or save data. The real CLI continues to run locally.
+The `demo/` directory contains an interactive, browser-only text preview. Visitors can
+edit sample transcripts or paste their own text, find likely promises and deadlines,
+and mark them done for the current tab session. The demo uses simple rules, not the
+Ollama model: it may miss nuanced commitments, and it does not transcribe audio.
+Text is not uploaded or saved; refreshing resets the page. The full AI-powered CLI
+continues to run locally.
 
-To publish it on Render, create a new Blueprint from this GitHub repository and apply
-the included `render.yaml`. Render will publish `demo/` as a static site and provide a
-shareable URL.
+Render serves `demo/` as a static site using the included `render.yaml`; the
+interaction runs entirely in visitors' browsers. Push changes to `main` to update
+the existing Render demo (when automatic deploys are enabled). To create a new
+deployment, create a Blueprint from this repository using `render.yaml`.
 
 ## Models used (all open-weight, run 100% locally)
 
