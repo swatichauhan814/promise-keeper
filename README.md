@@ -30,7 +30,7 @@ The extractor is deliberately conservative: it only pulls things that sound like
 
 1. Install [Ollama](https://ollama.com) and pull a model:
    ```bash
-   ollama pull llama3.2
+   ollama pull gemma3
    ```
 2. Create a virtualenv and install deps:
    ```bash
@@ -88,7 +88,7 @@ shareable URL.
 | Stage | Model | Notes |
 |---|---|---|
 | Transcription (audio only) | `faster-whisper` (small) | Only invoked for audio files |
-| Commitment extraction | Ollama (`llama3.2` default) | Swap models/prompt per how your friend talks |
+| Commitment extraction | Ollama (`gemma3` default) | Swap models/prompt per how your friend talks |
 
 ## Project structure
 

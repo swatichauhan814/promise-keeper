@@ -8,7 +8,7 @@ import re
 
 import ollama
 
-MODEL = "llama3.2"  # swap for whatever Ollama model fits your hardware / your friend's speech style
+MODEL = "gemma3"  # swap for whatever Ollama model fits your hardware / your friend's speech style
 
 SYSTEM_PROMPT = """You extract concrete COMMITMENTS from a transcript of someone talking or texting.
 
