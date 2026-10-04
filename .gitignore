@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+todos.json
+todos.md
+inputs/*
+!inputs/texts.txt
