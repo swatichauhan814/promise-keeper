@@ -1,15 +1,19 @@
 # Promise Keeper
 
-Your friend talks fast and says "yeah I'll send that over" or "I'll get you the file by Friday" a dozen times a day - then forgets. This tool listens to their rambly voice notes or texts and pulls out every actual commitment they made, with deadlines, into one clean todo list.
+Promise Keeper is an ADHD-friendly tool for getting commitments out of your head and into a clear, manageable list. It turns text or voice notes like "yeah, I'll send that over" or "I'll get you the file by Friday" into todos with deadlines, so you don't have to rely on remembering every promise later.
 
-Built for Hacktoberfest "Build for a Friend" (open-source AI at its core).
+Remembering, organizing, and following up on commitments can be difficult for people with ADHD, especially when plans are made in passing. Promise Keeper offers a lightweight external memory: capture what was said, review the extracted commitments, and mark them done when you're ready. ADHD experiences vary, and this is a practical support tool—not a treatment or a substitute for professional care.
 
-## Why local / open-source matters here
+Built for Hacktoberfest "Build for a Friend" with open-source AI at its core.
 
-- **It's a surveillance-shaped tool.** Transcribing someone's voice notes and texts to extract "what you promised" is sensitive by nature - this only works if your friend trusts it never leaves their machine. A cloud API is a non-starter for this use case.
+## Designed for ADHD-friendly follow-through
+
+- **Capture without relying on memory.** Turn a voice memo, pasted message, or quick note into a list you can come back to.
+- **Make next steps visible.** Keep the task, deadline, and original quote together, then mark commitments done as you complete them.
+- **Keep control of personal information.** Notes and commitments can contain sensitive details, so processing stays on your machine rather than being sent to a cloud AI service.
 - **No internet required.** Works on a commute, in a basement office, wherever the rambling happens.
-- **Free to run constantly.** This only has value if it runs on *every* voice note, all day, forever - an API-metered version would get expensive or get disabled to save money, defeating the point.
-- **Swappable model = tunable to the person.** ADHD commitment-speech is idiosyncratic ("I got you" = a promise, "maybe I'll look at it" = not). You can swap Ollama models or adjust the prompt until it matches how *your specific friend* talks, without waiting on a vendor.
+- **Adaptable to your communication style.** Commitment language is personal. You can swap Ollama models or adjust the extraction prompt to better match how you phrase plans and promises.
+- **No per-note AI fee.** Once installed, local processing doesn't charge per voice note or text.
 
 ## How it works
 
@@ -24,7 +28,7 @@ todos.json                     (structured: task, deadline, source quote, status
 todos.md                       (human-readable running todo list)
 ```
 
-The extractor is deliberately conservative: it only pulls things that sound like an actual commitment ("I'll send X by Y"), not vague intentions ("I should really...").
+The extractor is deliberately conservative: it looks for clear commitments ("I'll send X by Y"), not vague intentions ("I should really..."). Review the results before relying on them; automated extraction can miss context or misunderstand what you meant.
 
 ## Setup
 
