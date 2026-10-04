@@ -73,6 +73,16 @@ python main.py done 3
 
 Every `ingest` appends newly-found commitments to `todos.json` and regenerates `todos.md`.
 
+## Public demo
+
+The `demo/` directory contains a static, sample-only preview. It uses fixed fictional
+transcripts and pre-written results; visitors cannot submit text or audio, and the page
+does not call an AI service or save data. The real CLI continues to run locally.
+
+To publish it on Render, create a new Blueprint from this GitHub repository and apply
+the included `render.yaml`. Render will publish `demo/` as a static site and provide a
+shareable URL.
+
 ## Models used (all open-weight, run 100% locally)
 
 | Stage | Model | Notes |

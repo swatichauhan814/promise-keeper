@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f5f4ef">
+    <meta name="description" content="A sample-only preview of Promise Keeper, a local-first commitment tracker.">
+    <title>Promise Keeper - Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #202c28;
+        --muted: #6b7771;
+        --paper: #f5f4ef;
+        --surface: #fffefa;
+        --line: #e6e6dd;
+        --green: #245b48;
+        --mint: #dcece2;
+        --orange: #e8a16d;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(ellipse at 92% 0%, #e9eee4 0, transparent 32rem),
+          var(--paper);
+        color: var(--ink);
+        font: 16px/1.5 ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      button { font: inherit; }
+
+      .shell {
+        width: min(1120px, calc(100% - 40px));
+        margin: 0 auto;
+        padding: 28px 0 64px;
+      }
+
+      .topbar, .brand, .demo-label, .panel-heading, .todo-meta, .privacy {
+        display: flex;
+        align-items: center;
+      }
+
+      .topbar { justify-content: space-between; }
+
+      .brand { gap: 11px; font-weight: 750; letter-spacing: -0.03em; }
+
+      .brand-mark {
+        display: grid;
+        width: 38px;
+        height: 38px;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--green);
+        color: white;
+        font-size: 20px;
+      }
+
+      .demo-label {
+        gap: 8px;
+        padding: 7px 11px;
+        border: 1px solid #d9dfd4;
+        border-radius: 999px;
+        background: #ffffff99;
+        color: var(--green);
+        font-size: 12px;
+        font-weight: 750;
+        letter-spacing: .08em;
+      }
+
+      .demo-label::before {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--orange);
+        content: "";
+      }
+
+      .intro { max-width: 700px; margin: 76px auto 42px; text-align: center; }
+
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--green);
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: .16em;
+      }
+
+      h1 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(40px, 6vw, 68px);
+        font-weight: 500;
+        letter-spacing: -.055em;
+        line-height: 1.02;
+      }
+
+      .intro-copy { max-width: 570px; margin: 20px auto 0; color: var(--muted); font-size: 18px; }
+
+      .workspace {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, .94fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: var(--surface);
+        box-shadow: 0 18px 55px #34493b0a;
+      }
+
+      .transcript-card, .results-card { padding: 26px; }
+
+      .panel-heading { justify-content: space-between; gap: 12px; margin-bottom: 23px; }
+
+      .panel-heading h2 { margin: 0; font-size: 17px; letter-spacing: -.02em; }
+
+      .panel-kicker {
+        color: #839087;
+        font-size: 11px;
+        font-weight: 750;
+        letter-spacing: .11em;
+      }
+
+      .samples { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+
+      .sample-button {
+        padding: 8px 12px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: white;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 13px;
+        transition: background .15s ease, color .15s ease, border-color .15s ease;
+      }
+
+      .sample-button:hover { border-color: #b8cabe; }
+
+      .sample-button[aria-pressed="true"] {
+        border-color: var(--green);
+        background: var(--green);
+        color: white;
+      }
+
+      .quote-box {
+        min-height: 192px;
+        padding: 20px;
+        border: 1px solid #eee9dd;
+        border-radius: 16px;
+        background: #faf8f2;
+      }
+
+      .quote-mark {
+        color: #a8b6a9;
+        font-family: Georgia, serif;
+        font-size: 34px;
+        line-height: .8;
+      }
+
+      .transcript-text {
+        margin: 12px 0 0;
+        color: #3b4942;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 19px;
+        line-height: 1.65;
+      }
+
+      .transcript-source { margin-top: 17px; color: #89938c; font-size: 12px; }
+
+      .results-heading { margin-bottom: 18px; }
+
+      .count {
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: var(--mint);
+        color: var(--green);
+        font-size: 12px;
+        font-weight: 750;
+        white-space: nowrap;
+      }
+
+      .todo-list { display: grid; gap: 11px; }
+
+      .todo {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        gap: 12px;
+        padding: 15px 14px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+      }
+
+      .check {
+        width: 19px;
+        height: 19px;
+        margin-top: 2px;
+        border: 1.5px solid #9aafa1;
+        border-radius: 6px;
+      }
+
+      .task { margin: 0; font-size: 15px; font-weight: 700; }
+
+      .todo-meta { flex-wrap: wrap; gap: 7px; margin-top: 6px; }
+
+      .deadline {
+        padding: 3px 7px;
+        border-radius: 6px;
+        background: #f5f1e8;
+        color: #7a6548;
+        font-size: 11px;
+        font-weight: 700;
+      }
+
+      .source-quote { color: var(--muted); font-size: 12px; }
+
+      .filtered {
+        display: flex;
+        gap: 10px;
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #f2f5ef;
+        color: #65746a;
+        font-size: 12px;
+      }
+
+      .filtered strong { color: var(--green); white-space: nowrap; }
+
+      .privacy {
+        gap: 13px;
+        margin-top: 18px;
+        padding: 16px 19px;
+        border: 1px solid #dce5da;
+        border-radius: 16px;
+        background: #edf3eb;
+        color: #486354;
+        font-size: 13px;
+      }
+
+      .privacy-icon { flex: 0 0 auto; font-size: 19px; }
+      .privacy strong { color: #294e3c; }
+
+      .how-it-works { margin: 50px 0 0; text-align: center; }
+
+      .how-it-works h2 {
+        margin: 0 0 22px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 26px;
+        font-weight: 500;
+        letter-spacing: -.03em;
+      }
+
+      .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+      .step { padding: 17px; border: 1px solid var(--line); border-radius: 14px; background: #ffffffa6; }
+
+      .step-number { color: var(--green); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+      .step p { margin: 6px 0 0; color: #5e6a63; font-size: 13px; }
+
+      footer { margin-top: 34px; color: #89938c; font-size: 12px; text-align: center; }
+      footer a { color: var(--green); text-underline-offset: 3px; }
+
+      @media (max-width: 760px) {
+        .shell { width: min(100% - 28px, 560px); padding-top: 18px; }
+        .intro { margin: 58px auto 32px; }
+        .workspace { grid-template-columns: 1fr; }
+        .transcript-card, .results-card { padding: 20px; }
+        .quote-box { min-height: auto; }
+        .steps { grid-template-columns: 1fr; text-align: left; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">P</span><span>promise keeper</span></div>
+        <span class="demo-label">SAMPLE DEMO</span>
+      </header>
+
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">A LITTLE LESS “I FORGOT”</p>
+        <h1 id="page-title">Catch the promises hidden in the ramble.</h1>
+        <p class="intro-copy">A small, local-first tool that turns voice notes and texts into the things you said you would do.</p>
+      </section>
+
+      <section class="workspace" aria-label="Promise Keeper sample">
+        <article class="card transcript-card">
+          <div class="panel-heading">
+            <h2>Start with a real-life ramble</h2>
+            <span class="panel-kicker">01 / TRANSCRIPT</span>
+          </div>
+          <div class="samples" role="group" aria-label="Choose a sample transcript">
+            <button class="sample-button" type="button" data-sample="0" aria-pressed="true">Voice note</button>
+            <button class="sample-button" type="button" data-sample="1" aria-pressed="false">Chat excerpt</button>
+          </div>
+          <div class="quote-box" aria-live="polite">
+            <div class="quote-mark" aria-hidden="true">“</div>
+            <p class="transcript-text" id="transcript"></p>
+            <div class="transcript-source" id="source"></div>
+          </div>
+        </article>
+
+        <article class="card results-card">
+          <div class="panel-heading results-heading">
+            <div>
+              <span class="panel-kicker">02 / WHAT YOU PROMISED</span>
+              <h2 style="margin-top: 5px">Promises to keep</h2>
+            </div>
+            <span class="count" id="count"></span>
+          </div>
+          <div class="todo-list" id="todos" aria-live="polite"></div>
+          <div class="filtered" id="filtered">
+            <strong>Left out</strong>
+            <span id="filtered-text"></span>
+          </div>
+        </article>
+      </section>
+
+      <aside class="privacy">
+        <span class="privacy-icon" aria-hidden="true">◆</span>
+        <div><strong>Sample-only preview.</strong> These examples and results are pre-written. This page does not accept or upload text or audio, call an AI service, or save anything.</div>
+      </aside>
+
+      <section class="how-it-works" aria-labelledby="how-title">
+        <h2 id="how-title">The real app stays on your device.</h2>
+        <div class="steps">
+          <div class="step"><span class="step-number">01 / LISTEN</span><p>Whisper transcribes audio locally.</p></div>
+          <div class="step"><span class="step-number">02 / UNDERSTAND</span><p>Ollama finds concrete promises, not vague intentions.</p></div>
+          <div class="step"><span class="step-number">03 / REMEMBER</span><p>Your list is saved as files on your own machine.</p></div>
+        </div>
+      </section>
+
+      <footer>
+        A preview of <a href="https://github.com/swatichauhan814/promise-keeper">Promise Keeper</a> · Open source, local by design.
+      </footer>
+    </main>
+
+    <script>
+      const samples = [
+        {
+          transcript: "Hey, I'll send you the revised slides by Friday. And I'll call the landlord tomorrow about the sink. I should probably clean the spare room too, but maybe next week.",
+          source: "A fictional voice-note sample",
+          commitments: [
+            { task: "Send the revised slides", deadline: "Friday", quote: "I'll send you the revised slides by Friday." },
+            { task: "Call the landlord about the sink", deadline: "Tomorrow", quote: "I'll call the landlord tomorrow about the sink." }
+          ],
+          filtered: "“I should probably clean the spare room” is an intention, not a promise."
+        },
+        {
+          transcript: "Yep, I'll drop the keys at your place after work. I'll email the invoice before noon, too. I might start sorting the storage cupboard this weekend if I get a chance.",
+          source: "A fictional chat excerpt",
+          commitments: [
+            { task: "Drop off the keys", deadline: "After work", quote: "I'll drop the keys at your place after work." },
+            { task: "Email the invoice", deadline: "Before noon", quote: "I'll email the invoice before noon, too." }
+          ],
+          filtered: "“I might start sorting the storage cupboard” is too uncertain to count."
+        }
+      ];
+
+      const transcriptElement = document.querySelector("#transcript");
+      const sourceElement = document.querySelector("#source");
+      const todosElement = document.querySelector("#todos");
+      const countElement = document.querySelector("#count");
+      const filteredElement = document.querySelector("#filtered-text");
+      const sampleButtons = document.querySelectorAll(".sample-button");
+
+      function renderSample(index) {
+        const sample = samples[index];
+        transcriptElement.textContent = sample.transcript;
+        sourceElement.textContent = sample.source;
+        countElement.textContent = `${sample.commitments.length} found`;
+        filteredElement.textContent = sample.filtered;
+        todosElement.replaceChildren(...sample.commitments.map((commitment) => {
+          const row = document.createElement("div");
+          row.className = "todo";
+
+          const checkbox = document.createElement("span");
+          checkbox.className = "check";
+          checkbox.setAttribute("aria-hidden", "true");
+
+          const content = document.createElement("div");
+          const task = document.createElement("p");
+          task.className = "task";
+          task.textContent = commitment.task;
+
+          const metadata = document.createElement("div");
+          metadata.className = "todo-meta";
+          const deadline = document.createElement("span");
+          deadline.className = "deadline";
+          deadline.textContent = commitment.deadline;
+          const quote = document.createElement("span");
+          quote.className = "source-quote";
+          quote.textContent = `“${commitment.quote}”`;
+          metadata.append(deadline, quote);
+          content.append(task, metadata);
+          row.append(checkbox, content);
+          return row;
+        }));
+
+        sampleButtons.forEach((button) => {
+          button.setAttribute("aria-pressed", String(Number(button.dataset.sample) === index));
+        });
+      }
+
+      sampleButtons.forEach((button) => {
+        button.addEventListener("click", () => renderSample(Number(button.dataset.sample)));
+      });
+
+      renderSample(0);
+    </script>
+  </body>
+</html>

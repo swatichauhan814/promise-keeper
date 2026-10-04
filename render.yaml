@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: promise-keeper-demo
+    runtime: static
+    branch: main
+    buildCommand: ""
+    staticPublishPath: ./demo
