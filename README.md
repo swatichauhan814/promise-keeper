@@ -30,6 +30,17 @@ todos.md                       (human-readable running todo list)
 
 The extractor is deliberately conservative: it looks for clear commitments ("I'll send X by Y"), not vague intentions ("I should really..."). Review the results before relying on them; automated extraction can miss context or misunderstand what you meant.
 
+## Limitations
+
+Promise Keeper helps with *capturing and organizing* commitments, but it isn't a complete ADHD solution on its own:
+
+- **Capture is manual, not automatic.** You still have to copy/paste text (e.g. from WhatsApp, iMessage, email) into a file or `--text` flag, or save a voice note, and run `ingest` yourself. There's no inbox watcher, clipboard monitor, or messaging-app integration — if initiating that step is the hard part some days, this tool won't remove that barrier.
+- **No reminders or notifications.** Deadlines are stored as plain text (e.g. "Friday"), not calendar events or alarms. You have to remember to run `python main.py list` or open `todos.md` to see what's due — nothing pushes a nudge to you.
+- **CLI-only.** There's no GUI, menu bar app, or mobile client (aside from the browser-only `demo/`, which doesn't use the real AI pipeline or persist data).
+- **No calendar sync.** Deadlines aren't converted into actual date/time objects or synced to any calendar.
+
+In short: it's a lightweight capture-and-review layer for people who already have (or are building) the habit of pasting notes somewhere. Pair it with an external reminder/notification system for the time-based nudging ADHD workflows often need.
+
 ## Setup
 
 1. Install [Ollama](https://ollama.com) and pull a model:
